@@ -3,17 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.DataAccess;
 
 namespace WebApiCore.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        // GET api/values
+        private readonly KpiDbContext _context;
+        // GET v1/api/values
+        public ValuesController(KpiDbContext context)
+        {
+            _context = context;
+        }
+
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            var data = _context.Clients.Select(x => x.ClientCode).ToList();
+            return data;
         }
 
         // GET api/values/5

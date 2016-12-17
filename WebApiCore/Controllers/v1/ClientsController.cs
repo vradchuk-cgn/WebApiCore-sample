@@ -1,31 +1,35 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Swashbuckle.SwaggerGen.Annotations;
+using WebApi.DataAccess;
 using WebApiCore.Models;
 
-namespace WebApiCore.Controllers
+namespace WebApiCore.Controllers.v1
 {
-    [Route("api/v1/client")]
+    [Route("api/v1/[controller]")]
     public class ClientsController : Controller
     {
-        List<ClientModel> list = new List<ClientModel>{
+        private readonly KpiDbContext _context;
 
-        } ;
-
-        // GET api/values
-        [HttpGet]
-        public IEnumerable<ClientModel> Get()
-        {
-            return new List<ClientModel> { 
-                new ClientModel("WE21", "WE"),
+        List<ClientModel> _list = new List<ClientModel>{
+            new ClientModel("WE21", "WE"),
                 new ClientModel("CE03", "CE"),
                 new ClientModel("CE19", "CE"),
                 new ClientModel("WE09", "WE"),
                 new ClientModel("CE30", "CE"),
                 new ClientModel("WE08", "WE"),
                 new ClientModel("NO14", "Nordic"),
-            };
+        } ;
+
+        // GET api/values
+        public ClientsController(KpiDbContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet]
+        public IEnumerable<ClientModel> Get()
+        {
+            return _list;
         }
 
         // GET api/values/5
